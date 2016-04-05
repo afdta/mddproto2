@@ -1,0 +1,48 @@
+#multidimensional-disadvantage-wrap p, #multidimensional-disadvantage-wrap option{
+	font-size:15px;
+	font-family:arial, helvetica, sans;
+	line-height:1.25em;
+	margin:0;
+	color:#333333;
+}
+
+
+#multidimensional-disadvantage-wrap select{
+	background-color:#ffffff;
+	padding:5px 10px;
+	border: 1px solid #aaaaaa;
+	outline: 0px solid #aaaaaa;
+
+	font-size:15px;
+	font-family:arial, helvetica, sans;
+	line-height:1.25em;
+}
+#multidimensional-disadvantage-wrap select:focus{
+	border:1px solid #aaaaaa;
+}
+
+
+#multidimensional-disadvantage-wrap{
+	background-color:#ffffff;
+	min-height:300px;
+}
+
+#multidimensional-disadvantage-wrap .half-width{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	float:left;
+	padding:2px 2px;
+	width:50%;
+	margin:0px;
+	border:0px solid #aaaaaa;
+}
+
+#multidimensional-disadvantage-wrap .c-fix:after{
+  content:"";
+  clear:both;
+  display:table;
+}
+
+#multidimensional-disadvantage-wrap{}
+#multidimensional-disadvantage-wrap{}

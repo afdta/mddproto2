@@ -58,3 +58,6 @@ MUL <- rbind(multdis, multdis_w, multdis_b, multdis_h)
 
 TOT[is.na(TOT$CBSA), "CBSA"] <- 88888
 MUL[is.na(MUL$CBSA), "CBSA"] <- 88888
+
+write.csv(TOT, "~/Projects/Brookings/multidimensional-disadvantage/data/csv/Single.csv", row.names=FALSE)
+write.csv(MUL, "~/Projects/Brookings/multidimensional-disadvantage/data/csv/Multi.csv", row.names=FALSE)
