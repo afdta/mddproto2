@@ -5,11 +5,12 @@
 	margin:0;
 	color:#333333;
 }
+#multidimensional-disadvantage-wrap text{font-family:arial, helvetica, sans;}
 
 
 #multidimensional-disadvantage-wrap select{
 	background-color:#ffffff;
-	padding:5px 10px;
+	padding:5px;
 	border: 1px solid #aaaaaa;
 	outline: 0px solid #aaaaaa;
 
@@ -25,6 +26,7 @@
 #multidimensional-disadvantage-wrap{
 	background-color:#ffffff;
 	min-height:300px;
+	max-width:950px;
 }
 
 #multidimensional-disadvantage-wrap .half-width{
@@ -34,6 +36,18 @@
 	float:left;
 	padding:2px 2px;
 	width:50%;
+	max-width:410px;
+	margin:0px;
+	border:0px solid #aaaaaa;
+}
+
+#multidimensional-disadvantage-wrap .one-fifth{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	float:left;
+	padding:5px;
+	width:20%;
 	margin:0px;
 	border:0px solid #aaaaaa;
 }
@@ -44,5 +58,5 @@
   display:table;
 }
 
-#multidimensional-disadvantage-wrap{}
+#multidimensional-disadvantage-wrap rect{shape-rendering:crispEdges;}
 #multidimensional-disadvantage-wrap{}
