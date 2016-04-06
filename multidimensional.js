@@ -5,13 +5,15 @@
 	var session = {svg:true};
 	var data = {s:null, m:null}; //(s)ingle dimension and (m)ulti-dimensional disadvantage data sets
 	var format = {};
-	format.num = d3.format(",.0");
-	format.share = d3.format(",.1%");
+	 var formatNum = d3.format(",.0");
+	 var formatShare = d3.format(",.1%");
+	format.num = function(v){return v===null ? "NA" : formatNum(v)}
+	format.share = function(v){return v===null ? "NA" : formatShare(v)}
 
 	dom.wrap = d3.select("#multidimensional-disadvantage-wrap");
 	dom.charts = {};
 
-	dom.charts.single = d3.select("#md-graphics-single").style({"padding":"5px","margin":"15px 0px"});
+	dom.charts.single = d3.select("#md-graphics-single").style({"padding":"5px","margin":"25px 0px"});
 	dom.charts.multi = d3.select("#md-graphics-multi").style({"padding":"5px"});
 	dom.menu = d3.select("#md-menu")
 
@@ -129,66 +131,79 @@
 		//need to modify title information based on data
 		dat = getData();
 
-		var maxBar = 200;
-		
+		var maxBar = 400;
+		var col = "#F20505";
+
+		var maxSingle = d3.max(dat.single.disadvantage, function(d,i){return d.share});
+		var maxMulti = d3.max(dat.multi.disadvantage, function(d,i){return d.share});
+
+		var NH1 = Math.round(maxBar*maxSingle);
+		var NH2 = Math.round(maxBar*maxMulti)
+		var newHeight1 = NH1 < 170 ? 170 : NH1;
+		var newHeight2 = NH2 < 170 ? 170 : NH2;
+		var topPad = 50;
+
 		var g1 = dom.charts.single.selectAll("div").data(dat.single.disadvantage);
-		g1.enter().append("div").classed("one-fifth",true).append("svg").style({"width":"100%", "height":(maxBar+30)+"px", "border-bottom":"1px solid #dddddd"})
-			.append("g").classed("single-bar-chart",true).attr("transform","translate(0,30)");
+		g1.enter().append("div").classed("one-fifth",true).append("svg").style({"width":"100%", "border-bottom":"1px solid #dddddd"})
+			.append("g").classed("single-bar-chart",true).attr("transform","translate(0,"+topPad+")");
 		g1.exit().remove();
 
 		var g1Titles = g1.selectAll("p").data(function(d,i){return [d.title]});
 		g1Titles.enter().append("p");
 		g1Titles.exit().remove();
-		g1Titles.text(function(d,i){return d}).style("text-align","center");
+		g1Titles.text(function(d,i){return d}).style({"text-align":"center","font-size":"13px","margin":"0px 10px"});
 
 		var g1g = g1.select("g.single-bar-chart");
 
 		var g1b = g1g.selectAll("rect").data(function(d,i){return [d]});
-		g1b.enter().append("rect").attr({"width":"50%", "x":"25%", "fill":"red", "stroke":"none"});
+		g1b.enter().append("rect").attr({"width":"50%", "x":"25%", "fill":col, "stroke":"none"});
 		g1b.exit().remove();
 		g1b.transition()
 			.attr("height", function(d,i){return d.share*maxBar})
-			.attr("y", function(d,i){return maxBar-(d.share*maxBar)});
+			.attr("y", function(d,i){return newHeight1-(d.share*maxBar)});
 
 		var g1t = g1g.selectAll("text.front-text").data(function(d,i){return [d]});
-		g1t.enter().append("text").classed("front-text",true).attr({"x":"50%", "text-anchor":"middle", y:(maxBar-10)+"px"}).style("font-size","28px");
+		g1t.enter().append("text").classed("front-text",true).attr({"x":"50%", "text-anchor":"middle"}).style("font-size","28px");
 		g1t.exit().remove();
 		g1t.text(function(d,i){return format.share(d.share)} );
 		g1t.attr("fill",function(d,i){
-			return "red";
+			return col;
 		}).transition().attr("y",function(d,i){
-			return maxBar-(d.share*maxBar)-3;
+			return newHeight1-(d.share*maxBar)-3;
 		})
 
 
 		var g2 = dom.charts.multi.selectAll("div").data(dat.multi.disadvantage);
-		g2.enter().append("div").classed("one-fifth",true).append("svg").style({"width":"100%", "height":(maxBar+30)+"px", "border-bottom":"1px solid #dddddd"})
-			.append("g").classed("single-bar-chart",true).attr("transform","translate(0,30)");
+		g2.enter().append("div").classed("one-fifth",true).append("svg").style({"width":"100%", "border-bottom":"1px solid #dddddd"})
+			.append("g").classed("single-bar-chart",true).attr("transform","translate(0,"+topPad+")");
 		g2.exit().remove();
 
 		var g2Titles = g2.selectAll("p").data(function(d,i){return [d.title]});
 		g2Titles.enter().append("p");
 		g2Titles.exit().remove();
-		g2Titles.text(function(d,i){return d}).style("text-align","center");
+		g2Titles.text(function(d,i){return d}).style({"text-align":"center", "font-size":"13px", "margin":"0px 10px"});
 
 		var g2g = g2.select("g.single-bar-chart");
 
 		var g2b = g2g.selectAll("rect").data(function(d,i){return [d]});
-		g2b.enter().append("rect").attr({"width":"50%", "x":"25%", "fill":"red", "stroke":"none"});
+		g2b.enter().append("rect").attr({"width":"50%", "x":"25%", "fill":col, "stroke":"none"});
 		g2b.exit().remove();
 		g2b.transition()
 			.attr("height", function(d,i){return d.share*maxBar})
-			.attr("y", function(d,i){return maxBar-(d.share*maxBar)});
+			.attr("y", function(d,i){return newHeight2-(d.share*maxBar)});
 
 		var g2t = g2g.selectAll("text.front-text").data(function(d,i){return [d]});
 		g2t.enter().append("text").classed("front-text",true).attr({"x":"50%", "text-anchor":"middle", y:(maxBar-10)+"px"}).style("font-size","28px");
 		g2t.exit().remove();
 		g2t.text(function(d,i){return format.share(d.share)} );
 		g2t.attr("fill",function(d,i){
-			return "red";
+			return col;
 		}).transition().attr("y",function(d,i){
-			return maxBar-(d.share*maxBar)-3;
-		})		
+			return newHeight2-(d.share*maxBar)-3;
+		})	
+
+		dom.charts.single.selectAll("svg").transition().style("height", (newHeight1+topPad)+"px");	
+		dom.charts.multi.selectAll("svg").transition().style("height", (newHeight2+topPad)+"px");
 	}
 
 	function getData(){
@@ -203,7 +218,7 @@
 		if(data.single && data.multi){
 
 			dom.charts.single.append("p").text("Dimensions of disadvantage").style({"font-size":"18px","padding":"5px 0px", "border-bottom":"1px solid #aaaaaa"});
-			dom.charts.multi.append("p").text("Clustered, or multi-dimensional disadvantages").style({"font-size":"18px","padding":"5px 0px", "border-bottom":"1px solid #aaaaaa"});
+			dom.charts.multi.append("p").text("Clustered, or multi-dimensional disadvantage").style({"font-size":"18px","padding":"5px 0px", "border-bottom":"1px solid #aaaaaa"});
 			
 
 			//{1} - build select menus
