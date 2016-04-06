@@ -3,7 +3,7 @@
 (function(){
 	var dom = {};
 	var session = {svg:true};
-	var data = {s:null, m:null}; //(s)ingle dimension and (m)ulti-dimensional disadvantage data sets
+	var data = {single:null, multi:null}; //single dimension and multi-dimensional disadvantage data sets
 	var format = {};
 	 var formatNum = d3.format(",.0");
 	 var formatShare = d3.format(",.1%");
@@ -37,9 +37,9 @@
 		row.race = d.Race;
 		
 		var dis = [
+			{level: coerceNum(d.LowInc), share: coerceNum(d.LowIncSh), title: "Low income (150% of federal poverty line)"},
 			{level: coerceNum(d.ConcPov), share: coerceNum(d.ConcPovSh), title: "Poor locale (living in concentrated poverty)"},
 			{level: coerceNum(d.LimitEd), share: coerceNum(d.LimitEdSh), title: "Limited education (no high school diploma)"},
-			{level: coerceNum(d.LowInc), share: coerceNum(d.LowIncSh), title: "Low income (150% of federal poverty line)"},
 			{level: coerceNum(d.NoInsure), share: coerceNum(d.NoInsureSh), title: "No health insurance"},
 			{level: coerceNum(d.NonWorking), share: coerceNum(d.NonWorkingSh), title: "Nonworking"}
 		]
@@ -55,11 +55,11 @@
 		row.race = d.Race;
 
 		var dis = [
+			{level: coerceNum(d.DBLY), share: coerceNum(d.DBLY_SH), title: "Any two or more disadvantages"},
 			{level: coerceNum(d.LI_CP), share: coerceNum(d.LI_CP_SH), title: "Low income and poor locale"},
-			{level: coerceNum(d.LI_HI), share: coerceNum(d.LI_HI_SH), title: "Low income and no health insurance"},
 			{level: coerceNum(d.LI_LE), share: coerceNum(d.LI_LE_SH), title: "Low income and limited education"},
-			{level: coerceNum(d.LI_NW), share: coerceNum(d.LI_NW_SH), title: "Low income and nonworking"},
-			{level: coerceNum(d.LI_2P), share: coerceNum(d.LI_2P_SH), title: "Low income and two or more other disadvantages"}
+			{level: coerceNum(d.LI_HI), share: coerceNum(d.LI_HI_SH), title: "Low income and no health insurance"},
+			{level: coerceNum(d.LI_NW), share: coerceNum(d.LI_NW_SH), title: "Low income and nonworking"}			
 		]
 
 		row.disadvantage = dis;
@@ -87,7 +87,7 @@
 		var final = {};
 		final.map = nest.map(dat);
 		final.entries = nest.entries(dat);
-
+		
 		//add in a simple listing of metro areas for use in select menu
 		data.metros = final.entries.map(function(d,i){return d.values[0].values[0].geo })
 								   .sort(function(a,b){
