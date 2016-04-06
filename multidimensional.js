@@ -7,8 +7,8 @@
 	var format = {};
 	 var formatNum = d3.format(",.0");
 	 var formatShare = d3.format(",.1%");
-	format.num = function(v){return (v===null || isNaN(v/1)) ? "NA" : formatNum(v)}
-	format.share = function(v){return (v===null || isNaN(v/1)) ? "NA" : formatShare(v)}
+	format.num = function(v){return v===null ? "NA" : formatNum(v)}
+	format.share = function(v){return v===null ? "NA" : formatShare(v)}
 
 	dom.wrap = d3.select("#multidimensional-disadvantage-wrap");
 	dom.charts = {};
@@ -26,7 +26,8 @@
 	session.repo = "./data/csv/";
 
 	function coerceNum(v){
-		return (v===null || v==="NA") ? null : +(v+"");
+		var n = +(v+"");
+		return (v===null || v==="NA" || isNaN(n)) ? null : n;
 	}
 
 	function parserS(d){
