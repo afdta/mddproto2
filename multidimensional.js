@@ -7,8 +7,8 @@
 	var format = {};
 	 var formatNum = d3.format(",.0");
 	 var formatShare = d3.format(",.1%");
-	format.num = function(v){return v===null ? "NA" : formatNum(v)}
-	format.share = function(v){return v===null ? "NA" : formatShare(v)}
+	format.num = function(v){return (v===null || isNaN(v/1)) ? "NA" : formatNum(v)}
+	format.share = function(v){return (v===null || isNaN(v/1)) ? "NA" : formatShare(v)}
 
 	dom.wrap = d3.select("#multidimensional-disadvantage-wrap");
 	dom.charts = {};
