@@ -133,7 +133,7 @@
 		dat = getData();
 
 		var maxBar = 350;
-		var col = "#F20505";
+		var col = "#c1272d";
 
 		var maxSingle = d3.max(dat.single.disadvantage, function(d,i){return d.share});
 		var maxMulti = d3.max(dat.multi.disadvantage, function(d,i){return d.share});
