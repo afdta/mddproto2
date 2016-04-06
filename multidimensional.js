@@ -13,8 +13,8 @@
 	dom.wrap = d3.select("#multidimensional-disadvantage-wrap");
 	dom.charts = {};
 
-	dom.charts.single = d3.select("#md-graphics-single").style({"padding":"5px","margin":"25px 0px 35px 0px"});
-	dom.charts.multi = d3.select("#md-graphics-multi").style({"padding":"5px"});
+	dom.charts.singleWrap = d3.select("#md-graphics-single").style({"margin":"25px 0px 0px 0px"});
+	dom.charts.multiWrap = d3.select("#md-graphics-multi").style({"margin":"35px 0px 10px 0px"});
 	dom.menu = d3.select("#md-menu")
 
 	if(!document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1")){
@@ -218,10 +218,15 @@
 	function run(){
 		if(data.single && data.multi){
 
-			dom.charts.single.append("p").text("Dimensions of disadvantage").style({"font-size":"22px","padding":"5px 0px 0px 5px"});
-			dom.charts.sub1 = dom.charts.single.append("p").text("SHARE OF THE ADULT POPULATION, YEAR").style({"font-size":"11px","padding":"3px 0px 5px 5px", color:"#666666", "border-bottom":"1px solid #aaaaaa"});
-			dom.charts.multi.append("p").text("Clustered, or multi-dimensional disadvantage").style({"font-size":"22px","padding":"5px 0px 0px 5px"});
-			dom.charts.sub2 = dom.charts.multi.append("p").text("SHARE OF THE ADULT POPULATION, YEAR").style({"font-size":"11px","padding":"3px 0px 5px 5px", color:"#666666", "border-bottom":"1px solid #aaaaaa"});
+			var t1wrap = dom.charts.singleWrap.append("div").style("padding","5px 10px");
+			t1wrap.append("p").text("Dimensions of disadvantage").style({"font-size":"22px"});
+			dom.charts.sub1 = t1wrap.append("p").text("SHARE OF THE ADULT POPULATION, YEAR").style({"font-size":"11px", color:"#666666"});
+			dom.charts.single = dom.charts.singleWrap.append("div").style({"border":"1px solid #aaaaaa","padding":"5px"}).classed("c-fix",true);
+
+			var t2wrap = dom.charts.multiWrap.append("div").style("padding", "5px 10px");
+			t2wrap.append("p").text("Clustered, or multi-dimensional disadvantage").style({"font-size":"22px"});
+			dom.charts.sub2 = t2wrap.append("p").text("SHARE OF THE ADULT POPULATION, YEAR").style({"font-size":"11px", color:"#666666"});
+			dom.charts.multi = dom.charts.multiWrap.append("div").style({"border":"1px solid #aaaaaa","padding":"5px"}).classed("c-fix",true);
 
 			//{1} - build select menus
 			setSelect();
