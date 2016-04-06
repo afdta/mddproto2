@@ -13,7 +13,7 @@
 	dom.wrap = d3.select("#multidimensional-disadvantage-wrap");
 	dom.charts = {};
 
-	dom.charts.single = d3.select("#md-graphics-single").style({"padding":"5px","margin":"25px 0px"});
+	dom.charts.single = d3.select("#md-graphics-single").style({"padding":"5px","margin":"25px 0px 35px 0px"});
 	dom.charts.multi = d3.select("#md-graphics-multi").style({"padding":"5px"});
 	dom.menu = d3.select("#md-menu")
 
@@ -217,9 +217,10 @@
 	function run(){
 		if(data.single && data.multi){
 
-			dom.charts.single.append("p").text("Dimensions of disadvantage").style({"font-size":"18px","padding":"5px 0px", "border-bottom":"1px solid #aaaaaa"});
-			dom.charts.multi.append("p").text("Clustered, or multi-dimensional disadvantage").style({"font-size":"18px","padding":"5px 0px", "border-bottom":"1px solid #aaaaaa"});
-			
+			dom.charts.single.append("p").text("Dimensions of disadvantage").style({"font-size":"22px","padding":"5px 0px 0px 5px"});
+			dom.charts.sub1 = dom.charts.single.append("p").text("SHARE OF THE ADULT POPULATION, YEAR").style({"font-size":"11px","padding":"3px 0px 5px 5px", color:"#666666", "border-bottom":"1px solid #aaaaaa"});
+			dom.charts.multi.append("p").text("Clustered, or multi-dimensional disadvantage").style({"font-size":"22px","padding":"5px 0px 0px 5px"});
+			dom.charts.sub2 = dom.charts.multi.append("p").text("SHARE OF THE ADULT POPULATION, YEAR").style({"font-size":"11px","padding":"3px 0px 5px 5px", color:"#666666", "border-bottom":"1px solid #aaaaaa"});
 
 			//{1} - build select menus
 			setSelect();
