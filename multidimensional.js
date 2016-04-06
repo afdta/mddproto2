@@ -132,16 +132,18 @@
 		//need to modify title information based on data
 		dat = getData();
 
-		var maxBar = 400;
+		var maxBar = 350;
 		var col = "#F20505";
 
 		var maxSingle = d3.max(dat.single.disadvantage, function(d,i){return d.share});
 		var maxMulti = d3.max(dat.multi.disadvantage, function(d,i){return d.share});
 
+		//it is possible that all values are null -- account for that
+
 		var NH1 = Math.round(maxBar*maxSingle);
 		var NH2 = Math.round(maxBar*maxMulti)
-		var newHeight1 = NH1 < 170 ? 170 : NH1;
-		var newHeight2 = NH2 < 170 ? 170 : NH2;
+		var newHeight1 = NH1 < 170 || !maxSingle ? 170 : NH1;
+		var newHeight2 = NH2 < 170 || !maxMulti ? 170 : NH2;
 		var topPad = 50;
 
 		var g1 = dom.charts.single.selectAll("div").data(dat.single.disadvantage);
@@ -194,7 +196,7 @@
 			.attr("y", function(d,i){return newHeight2-(d.share*maxBar)});
 
 		var g2t = g2g.selectAll("text.front-text").data(function(d,i){return [d]});
-		g2t.enter().append("text").classed("front-text",true).attr({"x":"50%", "text-anchor":"middle", y:(maxBar-10)+"px"}).style("font-size","28px");
+		g2t.enter().append("text").classed("front-text",true).attr({"x":"50%", "text-anchor":"middle"}).style("font-size","28px");
 		g2t.exit().remove();
 		g2t.text(function(d,i){return format.share(d.share)} );
 		g2t.attr("fill",function(d,i){
