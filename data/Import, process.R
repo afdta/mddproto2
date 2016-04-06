@@ -1,23 +1,23 @@
 library("gdata")
 setwd("/home/alec/Projects/Brookings/multidimensional-disadvantage/")
 
-tot <- read.xls("data/Metro Level MDP Data FMT.xlsx", "tot", na.strings=c("N",""), skip=1, header=TRUE)[,1:13]
-tot_w <- read.xls("data/Metro Level MDP Data FMT.xlsx", "tot_w", na.strings=c("N",""), skip=1, header=TRUE)
-tot_b <- read.xls("data/Metro Level MDP Data FMT.xlsx", "tot_b", na.strings=c("N",""), skip=1, header=TRUE)
-tot_h <- read.xls("data/Metro Level MDP Data FMT.xlsx", "tot_h", na.strings=c("N",""), skip=1, header=TRUE)
+tot <- read.xls("data/Metro Level MDP Data FMT.xlsx", "tot", na.strings=c("N","","#VALUE!"), skip=1, header=TRUE)[,1:13]
+tot_w <- read.xls("data/Metro Level MDP Data FMT.xlsx", "tot_w", na.strings=c("N","","#VALUE!"), skip=1, header=TRUE)
+tot_b <- read.xls("data/Metro Level MDP Data FMT.xlsx", "tot_b", na.strings=c("N","","#VALUE!"), skip=1, header=TRUE)
+tot_h <- read.xls("data/Metro Level MDP Data FMT.xlsx", "tot_h", na.strings=c("N","","#VALUE!"), skip=1, header=TRUE)
 
-multdis <- read.xls("data/Metro Level MDP Data FMT.xlsx", "multdis", na.strings=c("N",""), skip=1, header=TRUE)
-multdis_w <- read.xls("data/Metro Level MDP Data FMT.xlsx", "multdis_w", na.strings=c("N",""), skip=1, header=TRUE)
-multdis_b <- read.xls("data/Metro Level MDP Data FMT.xlsx", "multdis_b", na.strings=c("N",""), skip=1, header=TRUE)
-multdis_h <- read.xls("data/Metro Level MDP Data FMT.xlsx", "multdis_h", na.strings=c("N",""), skip=1, header=TRUE)
+multdis <- read.xls("data/Metro Level MDP Data FMT.xlsx", "multdis", na.strings=c("N","","#VALUE!"), skip=1, header=TRUE)
+multdis_w <- read.xls("data/Metro Level MDP Data FMT.xlsx", "multdis_w", na.strings=c("N","","#VALUE!"), skip=1, header=TRUE)
+multdis_b <- read.xls("data/Metro Level MDP Data FMT.xlsx", "multdis_b", na.strings=c("N","","#VALUE!"), skip=1, header=TRUE)
+multdis_h <- read.xls("data/Metro Level MDP Data FMT.xlsx", "multdis_h", na.strings=c("N","","#VALUE!"), skip=1, header=TRUE)
 
 identical(names(multdis), names(multdis_w)) && identical(names(multdis_w), names(multdis_b)) && identical(names(multdis_b), names(multdis_h))
 identical(names(tot), names(tot_w)) && identical(names(tot_w), names(tot_b)) && identical(names(tot_b), names(tot_h))
 
 nm1 <- c("CBSA", "Metro", "AdultPop", "LowInc", "ConcPov", "LimitEd", "NoInsure", "NonWorking", 
                                       "LowIncSh", "ConcPovSh", "LimitEdSh", "NoInsureSh", "NonWorkingSh")
-nm2 <- c("CBSA", "Metro", "AdultPop", "LI_CP", "LI_LE", "LI_HI", "LI_NW", "LI_2P", 
-                                      "LI_CP_SH", "LI_LE_SH", "LI_HI_SH", "LI_NW_SH", "LI_2P_SH")
+nm2 <- c("CBSA", "Metro", "AdultPop", "LI_CP", "LI_LE", "LI_HI", "LI_NW", "DBLY", "TRPLY", 
+                                      "LI_CP_SH", "LI_LE_SH", "LI_HI_SH", "LI_NW_SH", "DBLY_SH", "TRPLY_SH")
 
 for(i in 1:length(names(tot))){
   cat(nm1[i])
