@@ -1,4 +1,7 @@
-//to do: account for null values in formatting and display
+//to do: account for null values in formatting and display -- done
+//make text labels responsive
+//add map
+//
 
 (function(){
 	var dom = {};
