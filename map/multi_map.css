@@ -1,0 +1,30 @@
+#multidimensional-disadvantage-mapwrap p, #multidimensional-disadvantage-mapwrap option{
+	font-size:15px;
+	font-family:arial, helvetica, sans;
+	line-height:1.25em;
+	margin:0;
+	color:#333333;
+}
+#multidimensional-disadvantage-mapwrap text{font-family:arial, helvetica, sans;}
+
+
+#multidimensional-disadvantage-mapwrap select{
+	background-color:#ffffff;
+	padding:5px;
+	border: 1px solid #aaaaaa;
+	outline: 0px solid #aaaaaa;
+
+	font-size:15px;
+	font-family:arial, helvetica, sans;
+	line-height:1.25em;
+}
+#multidimensional-disadvantage-mapwrap select:focus{
+	border:1px solid #aaaaaa;
+}
+
+
+#multidimensional-disadvantage-mapwrap{
+	background-color:#ffffff;
+	min-height:300px;
+	max-width:950px;
+}
