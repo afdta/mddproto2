@@ -39,11 +39,11 @@
 		row.race = d.Race;
 		
 		var dis = [
-			{level: coerceNum(d.LowInc), share: coerceNum(d.LowIncSh), title: "Low income (150% of federal poverty line)"},
-			{level: coerceNum(d.ConcPov), share: coerceNum(d.ConcPovSh), title: "Poor locale (living in concentrated poverty)"},
+			{level: coerceNum(d.LowInc), share: coerceNum(d.LowIncSh), title: "Low income (living in a household below 150% of the federal poverty line)"},
+			{level: coerceNum(d.ConcPov), share: coerceNum(d.ConcPovSh), title: "Poor locale (living in an area where more than one in five are poor)"},
 			{level: coerceNum(d.LimitEd), share: coerceNum(d.LimitEdSh), title: "Limited education (no high school diploma)"},
 			{level: coerceNum(d.NoInsure), share: coerceNum(d.NoInsureSh), title: "No health insurance"},
-			{level: coerceNum(d.NonWorking), share: coerceNum(d.NonWorkingSh), title: "Nonworking"}
+			{level: coerceNum(d.NonWorking), share: coerceNum(d.NonWorkingSh), title: "Unemployed (living in a household where nobody is employed)"}
 		]
 
 		row.disadvantage = dis;
@@ -57,11 +57,11 @@
 		row.race = d.Race;
 
 		var dis = [
-			{level: coerceNum(d.DBLY), share: coerceNum(d.DBLY_SH), title: "Any two or more disadvantages"},
+			{level: coerceNum(d.DBLY), share: coerceNum(d.DBLY_SH), title: "Doubly disadvantaged (two or more disadvantages)"},
 			{level: coerceNum(d.LI_CP), share: coerceNum(d.LI_CP_SH), title: "Low income and poor locale"},
 			{level: coerceNum(d.LI_LE), share: coerceNum(d.LI_LE_SH), title: "Low income and limited education"},
 			{level: coerceNum(d.LI_HI), share: coerceNum(d.LI_HI_SH), title: "Low income and no health insurance"},
-			{level: coerceNum(d.LI_NW), share: coerceNum(d.LI_NW_SH), title: "Low income and nonworking"}			
+			{level: coerceNum(d.LI_NW), share: coerceNum(d.LI_NW_SH), title: "Low income and unemployed"}			
 		]
 
 		row.disadvantage = dis;
