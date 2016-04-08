@@ -2,7 +2,6 @@
 //make text labels responsive
 //add map
 //
-
 (function(){
 	var dom = {};
 	var session = {svg:true};
