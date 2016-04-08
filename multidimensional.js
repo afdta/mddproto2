@@ -10,13 +10,13 @@
 	 var formatNum = d3.format(",.0");
 	 var formatShare = d3.format(",.1%");
 	format.num = function(v){return v===null ? "NA" : formatNum(v)}
-	format.share = function(v){return v===null ? "NA" : formatShare(v)}
+	format.share = function(v){return v===null ? "NA*" : formatShare(v)}
 
 	dom.wrap = d3.select("#multidimensional-disadvantage-wrap");
 	dom.charts = {};
 
 	dom.charts.singleWrap = d3.select("#md-graphics-single").style({"margin":"25px 0px 0px 0px"});
-	dom.charts.multiWrap = d3.select("#md-graphics-multi").style({"margin":"35px 0px 10px 0px"});
+	dom.charts.multiWrap = d3.select("#md-graphics-multi").style({"margin":"35px 0px 0px 0px"});
 	dom.menu = d3.select("#md-menu")
 
 	if(!document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1")){
@@ -140,12 +140,15 @@
 		var maxSingle = d3.max(dat.single.disadvantage, function(d,i){return d.share});
 		var maxMulti = d3.max(dat.multi.disadvantage, function(d,i){return d.share});
 
+		var anyNA1 = false;
+		var anyNA2 = false;
+
 		//it is possible that all values are null -- account for that
 
 		var NH1 = Math.round(maxBar*maxSingle);
 		var NH2 = Math.round(maxBar*maxMulti)
-		var newHeight1 = NH1 < 170 || !maxSingle ? 170 : NH1;
-		var newHeight2 = NH2 < 170 || !maxMulti ? 170 : NH2;
+		var newHeight1 = NH1 < 150 || !maxSingle ? 150 : NH1;
+		var newHeight2 = NH2 < 150 || !maxMulti ? 150 : NH2;
 		var topPad = 50;
 
 		var g1 = dom.charts.single.selectAll("div").data(dat.single.disadvantage);
@@ -172,6 +175,7 @@
 		g1t.exit().remove();
 		g1t.text(function(d,i){return format.share(d.share)} ).classed("responsive-text",true);
 		g1t.attr("fill",function(d,i){
+			if(d.share===null){anyNA1 = true}
 			return col;
 		}).transition().attr("y",function(d,i){
 			return newHeight1-(d.share*maxBar)-3;
@@ -202,6 +206,7 @@
 		g2t.exit().remove();
 		g2t.text(function(d,i){return format.share(d.share)} ).classed("responsive-text",true);
 		g2t.attr("fill",function(d,i){
+			if(d.share===null){anyNA2 = true}
 			return col;
 		}).transition().attr("y",function(d,i){
 			return newHeight2-(d.share*maxBar)-3;
@@ -209,6 +214,15 @@
 
 		dom.charts.single.selectAll("svg").transition().style("height", (newHeight1+topPad)+"px");	
 		dom.charts.multi.selectAll("svg").transition().style("height", (newHeight2+topPad)+"px");
+
+		var geo1 = dat.single.geo.cbsa === "88888" ? "THE 100 LARGEST METRO AREAS" : dat.single.geo.name.toUpperCase();
+		var geo2 = dat.multi.geo.cbsa === "88888" ? "THE 100 LARGEST METRO AREAS" : dat.multi.geo.name.toUpperCase();
+
+		dom.charts.sub1.html('SHARE OF THE ADULT POPULATION IN <b>' + geo1 + "</b>, 2014");
+		dom.charts.sub2.html('SHARE OF THE ADULT POPULATION IN <b>' + geo2 + "</b>, 2014");
+
+		dom.note1.style("display", anyNA1 ? "block" : "none");
+		dom.note2.style("display", anyNA2 ? "block" : "none");
 	}
 
 	function getData(){
@@ -231,6 +245,9 @@
 			t2wrap.append("p").text("Clustered, or multi-dimensional disadvantage").style({"font-size":"22px"});
 			dom.charts.sub2 = t2wrap.append("p").text("SHARE OF THE ADULT POPULATION, 2014").style({"font-size":"11px", color:"#666666"});
 			dom.charts.multi = dom.charts.multiWrap.append("div").style({"border":"1px solid #aaaaaa","padding":"5px"}).classed("c-fix",true);
+
+			dom.note1 = d3.select("#md-graphics-note1");
+			dom.note2 = d3.select("#md-graphics-note2");
 
 			//{1} - build select menus
 			setSelect();
