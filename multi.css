@@ -59,4 +59,20 @@
 }
 
 #multidimensional-disadvantage-wrap rect{shape-rendering:crispEdges;}
-#multidimensional-disadvantage-wrap{}
+
+#multidimensional-disadvantage-wrap p.responsive-text{font-size:13px;}
+#multidimensional-disadvantage-wrap text.responsive-text{font-size:28px;}
+
+
+@media (min-width:0px){
+	#multidimensional-disadvantage-wrap p.responsive-text{font-size:9px;}
+	#multidimensional-disadvantage-wrap text.responsive-text{font-size:15px
+}
+@media (min-width:400px){
+	#multidimensional-disadvantage-wrap p.responsive-text{font-size:11px;}
+	#multidimensional-disadvantage-wrap text.responsive-text{font-size:20px
+}
+@media (min-width:640px){
+	#multidimensional-disadvantage-wrap p.responsive-text{font-size:13px;}
+	#multidimensional-disadvantage-wrap text.responsive-text{font-size:28px
+}

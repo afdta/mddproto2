@@ -156,7 +156,7 @@
 		var g1Titles = g1.selectAll("p").data(function(d,i){return [d.title]});
 		g1Titles.enter().append("p");
 		g1Titles.exit().remove();
-		g1Titles.text(function(d,i){return d}).style({"text-align":"center","font-size":"13px","margin":"0px 10px"});
+		g1Titles.text(function(d,i){return d}).style({"text-align":"center","margin":"0px 10px"}).classed("responsive-text",true);
 
 		var g1g = g1.select("g.single-bar-chart");
 
@@ -168,14 +168,14 @@
 			.attr("y", function(d,i){return newHeight1-(d.share*maxBar)});
 
 		var g1t = g1g.selectAll("text.front-text").data(function(d,i){return [d]});
-		g1t.enter().append("text").classed("front-text",true).attr({"x":"50%", "text-anchor":"middle"}).style("font-size","28px");
+		g1t.enter().append("text").classed("front-text",true).attr({"x":"50%", "text-anchor":"middle"});
 		g1t.exit().remove();
-		g1t.text(function(d,i){return format.share(d.share)} );
+		g1t.text(function(d,i){return format.share(d.share)} ).classed("responsive-text",true);
 		g1t.attr("fill",function(d,i){
 			return col;
 		}).transition().attr("y",function(d,i){
 			return newHeight1-(d.share*maxBar)-3;
-		})
+		});
 
 
 		var g2 = dom.charts.multi.selectAll("div").data(dat.multi.disadvantage);
@@ -186,7 +186,7 @@
 		var g2Titles = g2.selectAll("p").data(function(d,i){return [d.title]});
 		g2Titles.enter().append("p");
 		g2Titles.exit().remove();
-		g2Titles.text(function(d,i){return d}).style({"text-align":"center", "font-size":"13px", "margin":"0px 10px"});
+		g2Titles.text(function(d,i){return d}).style({"text-align":"center", "margin":"0px 10px"}).classed("responsive-text",true);
 
 		var g2g = g2.select("g.single-bar-chart");
 
@@ -198,14 +198,14 @@
 			.attr("y", function(d,i){return newHeight2-(d.share*maxBar)});
 
 		var g2t = g2g.selectAll("text.front-text").data(function(d,i){return [d]});
-		g2t.enter().append("text").classed("front-text",true).attr({"x":"50%", "text-anchor":"middle"}).style("font-size","28px");
+		g2t.enter().append("text").classed("front-text",true).attr({"x":"50%", "text-anchor":"middle"});
 		g2t.exit().remove();
-		g2t.text(function(d,i){return format.share(d.share)} );
+		g2t.text(function(d,i){return format.share(d.share)} ).classed("responsive-text",true);
 		g2t.attr("fill",function(d,i){
 			return col;
 		}).transition().attr("y",function(d,i){
 			return newHeight2-(d.share*maxBar)-3;
-		})	
+		});	
 
 		dom.charts.single.selectAll("svg").transition().style("height", (newHeight1+topPad)+"px");	
 		dom.charts.multi.selectAll("svg").transition().style("height", (newHeight2+topPad)+"px");
