@@ -187,7 +187,7 @@ dotMap.prototype.setDim = function(){
 //-------------------------------------------------{2}
 //set data to map. the method takes two args: 
 //(1) the array of objects, 
-//(2) name of the property in each object that contains the cbsa code, and 
+//(2) name of the property in each object that contains the cbsa code
 dotMap.prototype.setData = function(dat, geoVarName){
     var self = this;
 
@@ -202,7 +202,12 @@ dotMap.prototype.setData = function(dat, geoVarName){
     }
   }
 
-  this.data = dat.map(function(d,i,a){
+  //ensure that the data corresponds to a valid metro area
+  var datFilter = dat.filter(function(d,i,a){
+    return self.lookup.hasOwnProperty(d[geoVar]);
+  });
+
+  this.data = datFilter.map(function(d,i,a){
     var code = d[geoVar];
     var lu = self.lookup[code];
 
@@ -299,7 +304,8 @@ dotMap.prototype.getData = function(accessor){
 
 //set aesthetic functions
 //use of accessor is not currently supported because the legend is not set up to support encoding attributes using different scales
-dotMap.prototype.setAes = function(aesthetic, fn, accessor){
+//to do: support changing multiple aesthetics at once
+dotMap.prototype.setAes = function(aesthetic, fn, transition, accessor){
   var self = this;
   accessor = null; //disabled for now
 
@@ -323,7 +329,14 @@ dotMap.prototype.setAes = function(aesthetic, fn, accessor){
     if(this.metros && this.data && (this.accessor || !!accessor)){
       this.aes[aesthetic] = props;
 
-      this.metros.attr(aesthetic, function(d,i){
+      if(!!transition){
+        var sel = this.metros.transition();
+      }
+      else{
+        var sel = this.metros;
+      }
+
+      sel.attr(aesthetic, function(d,i){
         var v = !!accessor ? accessor(d.data) : self.getValue(d);
         return props.get(v); //exposes props as thisobject to fn
       });
