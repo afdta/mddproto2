@@ -147,8 +147,8 @@
 
 		var NH1 = Math.round(maxBar*maxSingle);
 		var NH2 = Math.round(maxBar*maxMulti)
-		var newHeight1 = NH1 < 150 || !maxSingle ? 150 : NH1;
-		var newHeight2 = NH2 < 150 || !maxMulti ? 150 : NH2;
+		var newHeight1 = NH1 < 170 || !maxSingle ? 170 : NH1;
+		var newHeight2 = NH2 < 170 || !maxMulti ? 170 : NH2;
 		var topPad = 50;
 
 		var g1 = dom.charts.single.selectAll("div").data(dat.single.disadvantage);
