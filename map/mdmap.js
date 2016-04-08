@@ -140,7 +140,6 @@
 			var timer;
 			var OI = 0;
 			var timedTransition = function(){
-				console.log("RUN");
 				if(keepRunning){
 					var next = OI+1;
 					OI = next > 3 ? 0 : next;
