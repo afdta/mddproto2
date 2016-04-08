@@ -224,12 +224,12 @@
 
 			var t1wrap = dom.charts.singleWrap.append("div").style("padding","5px 10px");
 			t1wrap.append("p").text("Dimensions of disadvantage").style({"font-size":"22px"});
-			dom.charts.sub1 = t1wrap.append("p").text("SHARE OF THE ADULT POPULATION, YEAR").style({"font-size":"11px", color:"#666666"});
+			dom.charts.sub1 = t1wrap.append("p").text("SHARE OF THE ADULT POPULATION, 2014").style({"font-size":"11px", color:"#666666"});
 			dom.charts.single = dom.charts.singleWrap.append("div").style({"border":"1px solid #aaaaaa","padding":"5px"}).classed("c-fix",true);
 
 			var t2wrap = dom.charts.multiWrap.append("div").style("padding", "5px 10px");
 			t2wrap.append("p").text("Clustered, or multi-dimensional disadvantage").style({"font-size":"22px"});
-			dom.charts.sub2 = t2wrap.append("p").text("SHARE OF THE ADULT POPULATION, YEAR").style({"font-size":"11px", color:"#666666"});
+			dom.charts.sub2 = t2wrap.append("p").text("SHARE OF THE ADULT POPULATION, 2014").style({"font-size":"11px", color:"#666666"});
 			dom.charts.multi = dom.charts.multiWrap.append("div").style({"border":"1px solid #aaaaaa","padding":"5px"}).classed("c-fix",true);
 
 			//{1} - build select menus

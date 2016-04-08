@@ -32,27 +32,36 @@
 
 		//BUILD SELECT MENU
 		dom.mapwrap = d3.select("#multidimensional-disadvantage-mapwrap");
-		dom.menu = dom.mapwrap.append("div");
+		dom.menu = dom.mapwrap.append("div").classed("c-fix",true);
 		dom.map = dom.mapwrap.append("div");
-		dom.select = dom.menu.append("select");
 
-		var opt = dom.select.selectAll("option").data([{c:"All", l:"All races/ethnicities"}, 
-														{c:"White", l:"White"}, 
-														{c:"Black", l:"Black"}, 
-														{c:"Hispanic", l:"Hispanic"}]);
-		opt.enter().append("option");
-		opt.exit().remove();
-		opt.attr("value",function(d,i){return d.c});
-		opt.text(function(d,i){return d.l});
+
+		var SELECTION = "All";
+		var OPTIONS = [{c:"All", l:"All"}, {c:"White", l:"White"}, {c:"Black", l:"Black"}, {c:"Hispanic", l:"Hispanic"}];
+		dom.menu.append("div").append("p").text("Select race / ethnicity").style({"margin":"0px 0px 5px 10px"});
+
+		dom.buttons = dom.menu.selectAll("div.mdd-button")
+							  .data(OPTIONS);
+		dom.buttons.enter().append("div").classed("mdd-button",true).append("p");
+		dom.buttons.exit().remove();
+		
+		dom.buttons.select("p").text(function(d,i){return d.l});
+
+		var syncButtons = function(){
+			dom.buttons.classed("mdd-button-selected",function(d,i){
+				return d.c===SELECTION;
+			});
+		}
+		syncButtons(); //init
+
 		//END SELECT MENU
 
 		var accessor = function(d){
-			var race = dom.select.node().value;
 			var arr = d.values;
 			var v = null;
 
 			for(var i=0; i<arr.length; i++){
-				if(arr[i].key==race){
+				if(arr[i].key==SELECTION){
 					v = arr[i].values[0].dbly.share;
 					break;
 				}
@@ -60,24 +69,26 @@
 
 			return v;
 		}
+		var getTitle = function(){
+			var rt = {"White":"white adult population", 
+					  "Black":"black adult population", 
+					  "Hispanic":"Hispanic adult population", 
+					  "All":"total adult population"};	
+			var text = 'Share of the ' + rt[SELECTION] + ' that is doubly disadvantaged, 2014';
+			return text;	
+		}
 		var tA = function(d){
-			var race = dom.select.node().value;
 			var arr = d.values;
 			var v = null;
 
 			for(var i=0; i<arr.length; i++){
-				if(arr[i].key==race){
+				if(arr[i].key==SELECTION){
 					v = arr[i].values[0].dbly.share;
 					break;
 				}
 			}
 
-			var rt = {"White":"white adult population", 
-					  "Black":"black adult population", 
-					  "Hispanic":"Hispanic adult population", 
-					  "All":"total adult population"};
-
-			return ['<span style="font-size:11px;line-height:1.25em;">Share of the ' + rt[race] + '<br/>that is doubly disadvantaged</span>', '<p style="font-size:32px;line-height:1em;">'+format.share(v)+'</p>'];
+			return ['<span style="font-size:32px;line-height:1em;text-align:center;display:block;">'+format.share(v)+'</span>'];
 		}
 		var dotSize = function(v){
 			var max = 1; //100%
@@ -115,11 +126,40 @@
 			dmap.setAes("r", dotSize);
 			dmap.setAes("fill", dotFill);
 
-			dom.select.on("change",function(d,i){
+			dmap.title(getTitle(), {"font-size":"22px", "margin":"35px 0px -12px 10px", "text-align":"left"});
+
+			dom.buttons.on("mousedown",function(d,i){
+				SELECTION = d.c;
 				dmap.setAes("r", dotSize, true);
 				dmap.setAes("fill", dotFill, true); //r and fill can transition concurrently
-			})
+				dmap.title(getTitle());
+				syncButtons();
+			});
 
+			var keepRunning = true;
+			var timer;
+			var OI = 0;
+			var timedTransition = function(){
+				console.log("RUN");
+				if(keepRunning){
+					var next = OI+1;
+					OI = next > 3 ? 0 : next;
+					timer = setTimeout(function(){
+						SELECTION = OPTIONS[OI].c;
+						dmap.setAes("r", dotSize, true);
+						dmap.setAes("fill", dotFill, true); //r and fill can transition concurrently
+						dmap.title(getTitle());
+						syncButtons();
+						timedTransition();
+					},2000);
+				}
+			};
+			timedTransition();
+
+			dom.mapwrap.on("mouseenter",function(){
+				clearTimeout(timer);
+				keepRunning = false;
+			});
 		});
 	};
 

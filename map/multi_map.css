@@ -28,3 +28,68 @@
 	min-height:300px;
 	max-width:950px;
 }
+
+#multidimensional-disadvantage-mapwrap .mdd-button, #multidimensional-disadvantage-mapwrap .mdd-dummy-button{
+	float:left;
+	width:23%;
+	padding:5px;
+	margin:0px 0.5%;
+
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+
+	border-radius:5px;
+
+	background-color:#ffffff;
+
+	border:1px solid #aaaaaa;
+	cursor:pointer;
+}
+#multidimensional-disadvantage-mapwrap .mdd-dummy-button{
+	cursor:auto;
+	background-color:#ffffff;
+	border-color:#aaaaaa;
+	border-radius:0px;
+	border-width:0px 1px 0px 0px;
+	margin:0px 0.5% 0px 0px;
+	padding:5px 1% 5px 0px;
+}
+
+#multidimensional-disadvantage-mapwrap .mdd-button p{
+	text-align:center;
+	line-height:1em;
+	pointer-events:none;
+}
+
+#multidimensional-disadvantage-mapwrap .c-fix:after{
+  content:"";
+  clear:both;
+  display:table;
+}
+
+#multidimensional-disadvantage-mapwrap .mdd-button.mdd-button-selected{
+	background-color:#c1272d;
+	border-color:#c1272d;
+
+	-webkit-transition:background-color 0.5s ease;
+	-moz-transition:background-color 0.5s ease;
+	-o-transition:background-color 0.5s ease;
+	transition:background-color 0.5s ease;
+}
+
+#multidimensional-disadvantage-mapwrap .mdd-button.mdd-button-selected p{
+	color:#ffffff;
+
+	-webkit-transition:color 0.25s ease;
+	-moz-transition:color 0.25s ease;
+	-o-transition:color 0.25s ease;
+	transition:color 0.25s ease;
+}
+
+#multidimensional-disadvantage-mapwrap .mdd-dummy-button p{
+	line-height:1.25em;
+	color:#333333;
+	text-align:right;
+	font-style:italic;
+}
