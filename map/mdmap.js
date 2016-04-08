@@ -77,7 +77,7 @@
 					  "Hispanic":"Hispanic adult population", 
 					  "All":"total adult population"};
 
-			return ['<span style="font-size:11px;line-height:1.25em;">Share of the ' + rt[race] + '<br/>that is doubly disadvantaged</span>', '<p style="font-size:32px;line-height:1.1em;">'+format.share(v)+'</p>'];
+			return ['<span style="font-size:11px;line-height:1.25em;">Share of the ' + rt[race] + '<br/>that is doubly disadvantaged</span>', '<p style="font-size:32px;line-height:1em;">'+format.share(v)+'</p>'];
 		}
 		var dotSize = function(v){
 			var max = 1; //100%
@@ -112,12 +112,12 @@
 			var dmap = new dotMap(dom.map.node()).draw();	
 			dmap.setData(entries,"key").makeResponsive().draw(function(){}).showToolTips(tA);	
 			dmap.setAccessor(accessor);
-			dmap.setAes("r", dotSize, true);
+			dmap.setAes("r", dotSize);
 			dmap.setAes("fill", dotFill);
 
 			dom.select.on("change",function(d,i){
 				dmap.setAes("r", dotSize, true);
-				dmap.setAes("fill", dotFill); //don't transition -- will override dotsizing transition
+				dmap.setAes("fill", dotFill, true); //r and fill can transition concurrently
 			})
 
 		});
