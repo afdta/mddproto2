@@ -58,6 +58,7 @@ function dotMap(container){
   this.proj = d3.geo.albersUsa().scale(this.width*this.proj_scale).translate([this.width/2, this.height/2]);  
   this.path = d3.geo.path().projection(this.path);
 
+  this.metrosG = null; //to support concurrent transitions, each metro dot is placed in its own <g>
   this.metros = null;
   this.states = null;
 
@@ -329,18 +330,40 @@ dotMap.prototype.setAes = function(aesthetic, fn, transition, accessor){
     if(this.metros && this.data && (this.accessor || !!accessor)){
       this.aes[aesthetic] = props;
 
-      if(!!transition){
-        var sel = this.metros.transition();
+      //run a transition -- size runs on <g>s, fill runs on <circle>s to allow concurrent transitions
+      if(!!transition && aesthetic=="fill"){
+        this.metros.transition().attr("fill", function(d){
+          var v = !!accessor ? accessor(d.data) : self.getValue(d);
+          return props.get(v); //exposes props as thisobject to fn         
+        });
+      }
+      else if(!!transition && aesthetic=="r"){
+        this.metrosG.transition().tween("attr:r", function(d,i){
+          var v = !!accessor ? accessor(d.data) : self.getValue(d);
+          
+          var subdots = d3.select(this).selectAll("circle"); //use selectAll to avoid any rebinding of data
+          var r = +subdots.attr("r"); //initial r
+          var rr = props.get(v); //final r
+          var i = d3.interpolateNumber(r, rr);
+
+          return function(t){
+            subdots.attr("r", i(t));
+          }
+        });
+        /*.each("end",function(d,i){
+          var v = self.getValue(d);
+          var r = props.get(v);
+          var is = d3.select(this).selectAll("circle").attr("r");
+          console.log(r==is);
+        });*/
       }
       else{
-        var sel = this.metros;
+        this.metros.attr(aesthetic, function(d,i){
+          var v = !!accessor ? accessor(d.data) : self.getValue(d);
+          return props.get(v); //exposes props as thisobject to fn
+        });
+        ///
       }
-
-      sel.attr(aesthetic, function(d,i){
-        var v = !!accessor ? accessor(d.data) : self.getValue(d);
-        return props.get(v); //exposes props as thisobject to fn
-      });
-      ///
     }
 
   }
@@ -431,10 +454,13 @@ dotMap.prototype.drawMap = function(callback){
   }).attr({"stroke":"#aaaaaa","stroke-width":"0.5px","fill":"#ffffff"});
 
   try{
-    var metros = this.dotG.selectAll("circle.metro").data(self.data);
-    metros.enter().append("circle").classed("metro",true).attr("fill","#cccccc");
-    metros.exit().remove();
-    metros.attr({"stroke":"#ffffff", "stroke-width":"1px", "r":"5"})
+    var metrosG = this.dotG.selectAll("g.metro").data(self.data);
+    metrosG.enter().append("g").classed("metro",true).append("circle"); //append a circle to each group
+    metrosG.exit().remove();
+
+    var metros = metrosG.select("circle"); //create a selection of just the circles, bind the data to the circles
+    metros.attr("fill","#cccccc")
+      .attr({"stroke":"#ffffff", "stroke-width":"1px", "r":"5"})
       .attr("cx", function(d,i){
         return self.getProjected(d)[0];
       })
@@ -443,9 +469,11 @@ dotMap.prototype.drawMap = function(callback){
       });
 
     this.metros = metros;
+    this.metrosG = metrosG;
   }
   catch(e){
     //console.log(e);
+    this.metrosG = null;
     this.metros = null;
   }
   this.states = states;
